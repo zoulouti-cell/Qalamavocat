@@ -1,0 +1,30 @@
+# نشر قلم على Render
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: qalam
+    runtime: node
+    plan: starter
+    region: frankfurt
+    branch: main
+    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @qalam/desktop build
+    startCommand: node services/api/src/server.mjs
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 24.20.0
+      - key: PORT
+        value: 10000
+      - key: QALAM_DB
+        value: /var/data/qalam.db
+      - key: QALAM_WEB_DIR
+        value: /opt/render/project/src/apps/desktop/dist
+      - key: QALAM_ORIGINS
+        sync: false
+      - key: QALAM_ALLOW_RESET
+        value: "1"
+    disk:
+      name: qalam-data
+      mountPath: /var/data
+      sizeGB: 1

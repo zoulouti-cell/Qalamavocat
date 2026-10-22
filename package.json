@@ -1,0 +1,36 @@
+{
+    "name": "qalam",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Qalam — قلم: منصة تسيير مكاتب المحاماة بالمغرب",
+    "packageManager": "pnpm@11.28.5",
+    "engines": {
+        "node": ">=22"
+    },
+    "scripts": {
+        "dev": "pnpm --filter @qalam/desktop dev",
+        "build": "pnpm --filter @qalam/desktop build",
+        "preview": "pnpm --filter @qalam/desktop preview",
+        "typecheck": "pnpm --filter @qalam/desktop typecheck",
+        "desktop": "pnpm --filter @qalam/desktop electron:dev",
+        "shots": "pnpm --filter @qalam/desktop shots",
+        "pdf": "pnpm --filter @qalam/desktop pdf",
+        "api": "node services/api/src/server.mjs",
+        "api:test": "node services/api/test/smoke.mjs",
+        "test:accounts": "node services/api/test/accounts.mjs",
+        "test:records": "node services/api/test/records.mjs",
+        "test:unit": "node scripts/run-unit.mjs",
+        "test:ui": "node scripts/ui-tests.mjs",
+        "test:all": "node scripts/test-all.mjs",
+        "local:test": "node apps/desktop/electron/local-store.test.cjs",
+        "sync:test": "node services/sync/drive.test.mjs",
+        "test:legal": "node tests/legal.test.mjs",
+        "test:docx": "node tests/docx.test.mjs",
+        "web": "node services/api/src/server.mjs",
+        "dist:web": "node scripts/dist-web.mjs",
+        "dist:all": "node scripts/dist-web.mjs --source --verify"
+    },
+    "devDependencies": {
+        "mongodb-memory-server": "10.1.4"
+    }
+}

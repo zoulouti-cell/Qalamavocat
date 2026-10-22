@@ -1,0 +1,27 @@
+# Netlify — الواجهة فقط (بدون خادم)
+# الواجهة تعمل بـ«متابعة محليًا»؛ الحسابات وبوابة الموكل تحتاج Render أو VPS.
+
+[build]
+  base = "."
+  command = "pnpm install --frozen-lockfile && pnpm --filter @qalam/desktop build"
+  publish = "apps/desktop/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "no-referrer"
+    Permissions-Policy = "geolocation=(), microphone=(self), camera=()"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self'; connect-src 'self' https:; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
