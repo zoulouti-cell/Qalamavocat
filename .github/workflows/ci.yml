@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.28.5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+
+      - name: تثبيت الاعتماديات
+        run: pnpm install --frozen-lockfile
+
+      - name: فحص الأنواع
+        run: pnpm typecheck
+
+      - name: خدمة API (دخان)
+        run: pnpm api:test
+
+      - name: الحسابات والمكاتب والعزل
+        run: pnpm test:accounts
+
+      - name: السجلات والتحقق
+        run: pnpm test:records
+
+      - name: وحدات الجلسات والمساعد والتقسيم
+        run: pnpm test:unit
+
+      - name: التحقق القانوني
+        run: pnpm test:legal
+        continue-on-error: true
+
+      - name: التحقق من docx
+        run: pnpm test:docx
+        continue-on-error: true
